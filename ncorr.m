@@ -177,12 +177,14 @@ classdef ncorr < handle
             % In earlier versions of Matlab this will fix inverted plots
             % Plotting tools are also run based on opengl
             if (ispc)
-                data_opengl = opengl('data');
-                if (~data_opengl.Software)
-                    % Set opengl to software
-                    opengl('software'); 
+                % Legacy Ncorr OpenGL workaround
+                try
+                    opengl software
+                catch
+                    % Ignore if opengl is unavailable / deprecated
                 end
-            end                
+            end
+
             
             % Start timer to fetch name of the handle that points to ncorr.
             % Use a timer because, to my knowledge, there isn't a callback
